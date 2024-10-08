@@ -8,8 +8,9 @@ def encode(s):
     digitmapping = dict(zip('1234567890!"#€%&/()=','!"#€%&/()=1234567890'))
 
     if len(s) > 1000:
-        raise ValueError
+        raise ValueError("Input too long")
     s = s.ljust(1000, "a")
+
     for c in s:
         if c.isalpha():
             if ord(c) > 127:

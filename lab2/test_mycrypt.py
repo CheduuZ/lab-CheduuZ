@@ -42,7 +42,7 @@ def test_invalid_char(invalid_input):
         mycrypt.encode(invalid_input)
 
 
-@pytest.mark.parametrize("invalid_input", [])
+@pytest.mark.parametrize("invalid_input", [None, 123, [1, 2, 3], {"key": "value"}])
 def test_invalid_types(invalid_input):
     '''Invalid parameter types should raise TypeError'''
     with pytest.raises(TypeError):
@@ -63,3 +63,9 @@ def test_timing():
     timing2 = min(timeit.repeat('mycrypt.encode("a"*1000)',
                                 'import mycrypt', repeat=3, number=30))
     assert 0.95 * timing2 < timing1 < 1.05 * timing2
+
+def test_input_too_long():
+    '''test if input is too long'''
+    long_string = "a" * 1001
+    with pytest.raises(ValueError, match="Input too long"):
+        mycrypt.encode(long_string)
